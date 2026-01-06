@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMGShare</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="/favicon_io/site.webmanifest">
     <style>
         * {
             color: #E3E5E8;
@@ -40,10 +44,27 @@
             background-color: #E3E5E8;
             margin-bottom: 3vh;
         }
-        #div {
+        #items {
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
+        }
+        #div {
+            margin-right: 2vw;
+        }
+        #button {
+            margin-top: 2vh;
+            color: #2C2F33;
+            padding: 5px;
+            border: 2px solid #E3E5E8;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        #button:hover {
+            background-color: #2C2F33;
+            color: #E3E5E8;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -51,11 +72,13 @@
     <div id="header">
         <h1>IMGShare</h1>
     </div>
-    <p>1) Upload your PNG image</p>
-    <p>2) Refresh the page to see your image</p>
-    <p>3) Copy and send the URL</p>
-    <div id="div"></div>
-    <input type="file" id="fileInput" accept=".png">
+    <div id="items">
+        <input type="file" id="fileInput" accept=".png, .jpg">
+        <div id="div"></div>
+        <div id="URLitem">
+
+        </div>
+    </div>
 </body>
 <script>
     window.onload = checkURL();
@@ -75,6 +98,15 @@
             imgElement.src = url;
             const div = document.getElementById("div");
             div.appendChild(imgElement);
+            const page = window.location.href;
+            const URLitem = document.getElementById("URLitem");
+            const button = document.createElement("button");
+            button.textContent = "Copy URL to Clipboard";
+            button.id = "button";
+            button.addEventListener("click", () => {
+                navigator.clipboard.writeText(page)
+            });
+            URLitem.appendChild(button);
         }
     }
     document.getElementById('fileInput').addEventListener('change', function(event) {
@@ -91,7 +123,8 @@
                 }
                 const base64String = btoa(binary);
                 window.location.hash = encodeURIComponent(base64String);
-                alert("Data Saved in URL");
+                alert("Upload Complete");
+                location.reload();
             };
         reader.readAsArrayBuffer(file);
         }
