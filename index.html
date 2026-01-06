@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Document Share</title>
+</head>
+<body>
+    <input type="file" id="fileInput" accept=".png">
+</body>
+<script>
+    window.onload = checkURL();
+    function checkURL() {
+        const value = decodeURIComponent(window.location.hash.slice(1));
+        if (value) {
+            const binary = atob(value);
+            const len = binary.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binary.charCodeAt(i);
+            }
+            console.log(bytes)
+            const imgElement = document.createElement('img');
+            const blob = new Blob([bytes], { type: 'image/png' });
+            const url = URL.createObjectURL(blob);
+            imgElement.alt = "Image Tranferred";
+            imgElement.src = url;
+            document.body.appendChild(imgElement);
+        }
+    }
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            let byteArray;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const arrayBuffer = e.target.result;
+                byteArray = new Uint8Array(arrayBuffer);
+                console.log('PNG file as byte array:', byteArray);
+                let binary = '';
+                for (let i = 0; i < byteArray.length; i++) {
+                    binary += String.fromCharCode(byteArray[i]);
+                }
+                const base64String = btoa(binary);
+                window.location.hash = encodeURIComponent(base64String);
+                alert("Data Saved in URL");
+            };
+        reader.readAsArrayBuffer(file);
+        }
+    });
+</script>
+</html>
