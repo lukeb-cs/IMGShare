@@ -36,7 +36,6 @@
             reader.onload = function(e) {
                 const arrayBuffer = e.target.result;
                 byteArray = new Uint8Array(arrayBuffer);
-                console.log('PNG file as byte array:', byteArray);
                 let binary = '';
                 for (let i = 0; i < byteArray.length; i++) {
                     binary += String.fromCharCode(byteArray[i]);
