@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web Document Share</title>
+    <title>IMGShare</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
 </head>
 <body>
     <input type="file" id="fileInput" accept=".png">
@@ -19,7 +20,6 @@
             for (let i = 0; i < len; i++) {
                 bytes[i] = binary.charCodeAt(i);
             }
-            console.log(bytes)
             const imgElement = document.createElement('img');
             const blob = new Blob([bytes], { type: 'image/png' });
             const url = URL.createObjectURL(blob);
