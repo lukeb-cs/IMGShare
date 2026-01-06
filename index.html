@@ -4,9 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IMGShare</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
+    <style>
+        * {
+            color: #E3E5E8;
+            font-weight: 1000;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            color: #2C2F33;
+        }
+        p, input, img {
+            margin-left: 2vw;
+        }
+        p {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        img {
+            margin-top: 3vh;
+            border: 2px solid #E3E5E8;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+        input {
+            padding-top: 3vh;
+        }
+        body {
+            margin: 0;
+            background-color: #2C2F33;
+            display: flex;
+            flex-direction: column;
+        }
+        #header {
+            background-color: #E3E5E8;
+            margin-bottom: 3vh;
+        }
+        #div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
+    <div id="header">
+        <h1>IMGShare</h1>
+    </div>
+    <p>1) Upload your PNG image</p>
+    <p>2) Refresh the page to see your image</p>
+    <p>3) Copy and send the URL</p>
+    <div id="div"></div>
     <input type="file" id="fileInput" accept=".png">
 </body>
 <script>
@@ -25,7 +73,8 @@
             const url = URL.createObjectURL(blob);
             imgElement.alt = "Image Tranferred";
             imgElement.src = url;
-            document.body.appendChild(imgElement);
+            const div = document.getElementById("div");
+            div.appendChild(imgElement);
         }
     }
     document.getElementById('fileInput').addEventListener('change', function(event) {
